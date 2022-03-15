@@ -6,7 +6,7 @@
 6. [Example Code](#example)
 
 <a name="desc"></a>
-# AMD EPYC™ GO SMI Binding
+# AMD EPYC™ GO SMI Binding (WIP)
 
 The AMD EPYC™ GO Binding is an interface between the [E-SMI In-Band C library](https://github.com/amd/esmi_ib_library.git), [ROCm SMI Library](https://github.com/RadeonOpenCompute/rocm_smi_lib.git), and any GO language application that needs to link with these libraries and call the APIs from the GO application. The GO binding is imported in the [AMD SMI Exporter](https://github.com/amd/amd_smi_exporter.git) to export information provided by the AMD E-SMI inband library and the ROCm SMI GPU library to the Prometheus server.
 
