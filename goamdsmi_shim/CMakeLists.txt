@@ -37,10 +37,13 @@ cmake_minimum_required(VERSION 3.5.0)
 #
 
 option(WITH_ESMI         "Support e-smi (EPYC cpus)"              ON)
+option(WITH_ROCM_SMI     "Support Rocm smi (MI200)"              OFF)
 
 set(ESMI_DIR "" CACHE PATH "path to e_smi installation")
+set(ROCM_SMI_DIR "" CACHE PATH "path to rocm_smi installation")
 
 include(deps/SetupEsmi.cmake)
+include(deps/SetupRocmsmi.cmake)
 
 set(GOAMDSMI_SHIM "goamdsmi_shim")
 set(GOAMDSMI_SHIM_LIB "goamdsmi")
@@ -125,10 +128,23 @@ if(WITH_ESMI)
     list(APPEND variorum_includes ${CMAKE_CURRENT_SOURCE_DIR}/esmi)
 endif()
 
+if(WITH_ROCM_SMI)
+    add_subdirectory(rsmi)
+    list(APPEND go_amd_smi_headers rsmi/rocm_smi_go_shim.h ${go_amd_smi_headers})
+    list(APPEND go_amd_smi_sources rsmi/rocm_smi_go_shim.c)
+    list(APPEND variorum_includes ${CMAKE_CURRENT_SOURCE_DIR}/rsmi)
+endif()
+
+#set(GOAMDSMI_SHIM_SRC_LIST ${GOAMDSMI_SHIM_SRC_LIST} "${SRC_DIR}/smi_go_shim.c")
+
 add_library(${GOAMDSMI_SHIM_TARGET} SHARED
 	    ${go_amd_smi_sources}
 	    ${go_amd_smi_headers}
 	    ${go_amd_smi_includes})
+
+if(WITH_ROCM_SMI)
+	target_link_libraries(${GOAMDSMI_SHIM_TARGET} pthread rt m rocm_smi64)
+endif()
 
 if(WITH_E_SMI)
 	target_link_libraries(${GOAMDSMI_SHIM_TARGET} pthread rt m e_smi64)
@@ -149,6 +165,7 @@ endif ()
 
 set(go_amd_smi_install_headers
     esmi/esmi_go_shim.h
+    rsmi/rocm_smi_go_shim.h
 )
 
 ## Add the install directives for the runtime library.
