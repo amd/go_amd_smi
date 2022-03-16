@@ -1,10 +1,11 @@
 package goamdsmi
 
 /*
-#cgo CFLAGS: -Wall
+#cgo CFLAGS: -Wall -I/opt/goamdsmi/include
 #cgo LDFLAGS: -L/opt/goamdsmi/lib -lgoamdsmi_shim64 -Wl,--unresolved-symbols=ignore-in-object-files
 #include <stdint.h>
-#include "smi_go_shim.h"
+#include <esmi_go_shim.h>
+#include <rocm_smi_go_shim.h>
 */
 import "C"
 
