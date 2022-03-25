@@ -1,6 +1,5 @@
+// SPDX-License-Identifier: MIT
 /*
- * MIT-X11 Open Source License
- *
  * Copyright (c) 2022, Advanced Micro Devices, Inc.
  * All rights reserved.
  *
@@ -36,11 +35,12 @@
  * the Advanced Micro Devices, Inc.
  *
  */
+
 package goamdsmi
 
 /*
 #cgo CFLAGS: -Wall -I/opt/goamdsmi/include
-#cgo LDFLAGS: -L/opt/goamdsmi/lib -lgoamdsmi_shim64 -Wl,--unresolved-symbols=ignore-in-object-files
+#cgo LDFLAGS: -L/opt/e-sms/e_smi/lib -L/opt/rocm/rocm_smi/lib -lrocm_smi64 -L/opt/goamdsmi/lib -lgoamdsmi_shim64 -Wl,--unresolved-symbols=ignore-in-object-files
 #include <stdint.h>
 #include <esmi_go_shim.h>
 #include <rocm_smi_go_shim.h>
@@ -69,6 +69,14 @@ func GO_rsmi_dev_power_ave_get(i int) (C.uint64_t) {
 
 func GO_rsmi_dev_temp_metric_get(i int, sensor int, metric int) (C.uint64_t) {
 	return C.go_shim_rsmi_dev_temp_metric_get(C.uint(i), C.uint(sensor), C.uint(metric))
+}
+
+func GO_rsmi_dev_gpu_clk_freq_get_sclk(i int) (C.uint64_t) {
+	return C.go_shim_rsmi_dev_gpu_clk_freq_get_sclk(C.uint(i))
+}
+
+func GO_rsmi_dev_gpu_clk_freq_get_mclk(i int) (C.uint64_t) {
+	return C.go_shim_rsmi_dev_gpu_clk_freq_get_mclk(C.uint(i))
 }
 
 func GO_esmi_init() (uint) {

@@ -95,3 +95,22 @@ uint64_t go_shim_rsmi_dev_temp_metric_get(uint32_t dv_ind, uint32_t sensor, uint
 	return 0;
 }
 
+uint64_t go_shim_rsmi_dev_gpu_clk_freq_get_sclk(uint32_t dv_ind)
+{
+	rsmi_frequencies_t freq;
+
+	if(RSMI_STATUS_SUCCESS == rsmi_dev_gpu_clk_freq_get(dv_ind, RSMI_CLK_TYPE_SYS, &freq))
+		return freq.frequency[freq.current];
+
+	return 0;
+}
+
+uint64_t go_shim_rsmi_dev_gpu_clk_freq_get_mclk(uint32_t dv_ind)
+{
+	rsmi_frequencies_t freq;
+
+	if(RSMI_STATUS_SUCCESS == rsmi_dev_gpu_clk_freq_get(dv_ind, RSMI_CLK_TYPE_MEM, &freq))
+		return freq.frequency[freq.current];
+
+	return 0;
+}

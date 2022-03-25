@@ -125,3 +125,34 @@ uint64_t go_shim_rsmi_dev_power_ave_get(uint32_t dv_ind);
  */
 uint64_t go_shim_rsmi_dev_temp_metric_get(uint32_t dv_ind, uint32_t sensor, uint32_t metric);
 
+/**
+ *  @brief Go language stub to get the GPU SCLK limit
+ *
+ *  @details This function will call the rsmi_dev_gpu_clk_freq_get()
+ *  function to return the gpu SCLK Limit. This value is then
+ *  passed as a uint64_t val to the Go routine that
+ *  called it.
+ *
+ *  @param[in] ::uint32_t device index, flag, ptr to rsmi_frequencies_t
+ *
+ *  @retval ::uint64_t GPU SCLK Limit
+ *  @retval zero is returned upon failure.
+ *
+ */
+uint64_t go_shim_rsmi_dev_gpu_clk_freq_get_sclk(uint32_t dv_ind);
+
+/**
+ *  @brief Go language stub to get the GPU MCLK limit
+ *
+ *  @details This function will call the rsmi_dev_gpu_clk_freq_get()
+ *  function to return the gpu MCLK Limit. This value is then
+ *  passed as a uint64_t val to the Go routine that
+ *  called it.
+ *
+ *  @param[in] ::uint32_t device index, flag, ptr to rsmi_frequencies_t
+ *
+ *  @retval ::uint64_t GPU MCLK Limit
+ *  @retval zero is returned upon failure.
+ *
+ */
+uint64_t go_shim_rsmi_dev_gpu_clk_freq_get_mclk(uint32_t dv_ind);
