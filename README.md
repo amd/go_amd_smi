@@ -75,7 +75,7 @@ Building the library is achieved by following the typical CMake build sequence, 
 #### ```$ cd goamdsmi_shim```
 #### ```$ mkdir -p build```
 #### ```$ cd build```
-#### ```$ cmake <location of root of goamdsmi_shim library CMakeLists.txt>```
+#### ```$ cmake cmake -C ../amd_smi.cmake ../```
 #### ```$ make```
 The built library will appear in the `build` folder.
 
