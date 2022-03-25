@@ -42,8 +42,13 @@ option(WITH_ROCM_SMI     "Support Rocm smi (MI200)"              OFF)
 set(ESMI_DIR "" CACHE PATH "path to e_smi installation")
 set(ROCM_SMI_DIR "" CACHE PATH "path to rocm_smi installation")
 
+if(WITH_ESMI)
 include(deps/SetupEsmi.cmake)
+endif()
+
+if(WITH_ROCM_SMI)
 include(deps/SetupRocmsmi.cmake)
+endif()
 
 set(GOAMDSMI_SHIM "goamdsmi_shim")
 set(GOAMDSMI_SHIM_LIB "goamdsmi")
@@ -125,29 +130,30 @@ if(WITH_ESMI)
     add_subdirectory(esmi)
     list(APPEND go_amd_smi_headers esmi/esmi_go_shim.h ${go_amd_smi_headers})
     list(APPEND go_amd_smi_sources esmi/esmi_go_shim.c)
-    list(APPEND variorum_includes ${CMAKE_CURRENT_SOURCE_DIR}/esmi)
+    list(APPEND go_amd_smi_includes ${CMAKE_CURRENT_SOURCE_DIR}/esmi)
 endif()
 
 if(WITH_ROCM_SMI)
     add_subdirectory(rsmi)
     list(APPEND go_amd_smi_headers rsmi/rocm_smi_go_shim.h ${go_amd_smi_headers})
     list(APPEND go_amd_smi_sources rsmi/rocm_smi_go_shim.c)
-    list(APPEND variorum_includes ${CMAKE_CURRENT_SOURCE_DIR}/rsmi)
+    list(APPEND go_amd_smi_includes ${CMAKE_CURRENT_SOURCE_DIR}/rsmi)
 endif()
-
-#set(GOAMDSMI_SHIM_SRC_LIST ${GOAMDSMI_SHIM_SRC_LIST} "${SRC_DIR}/smi_go_shim.c")
 
 add_library(${GOAMDSMI_SHIM_TARGET} SHARED
 	    ${go_amd_smi_sources}
 	    ${go_amd_smi_headers}
 	    ${go_amd_smi_includes})
 
+target_link_libraries(${GOAMDSMI_SHIM_TARGET} pthread rt m)
 if(WITH_ROCM_SMI)
-	target_link_libraries(${GOAMDSMI_SHIM_TARGET} pthread rt m rocm_smi64)
+	target_link_libraries(${GOAMDSMI_SHIM_TARGET} rocm_smi64)
+	target_link_libraries(${GOAMDSMI_SHIM_TARGET} -L${ROCM_SMI_DIR}/lib)
 endif()
 
-if(WITH_E_SMI)
-	target_link_libraries(${GOAMDSMI_SHIM_TARGET} pthread rt m e_smi64)
+if(WITH_ESMI)
+	target_link_libraries(${GOAMDSMI_SHIM_TARGET} e_smi64)
+	target_link_libraries(${GOAMDSMI_SHIM_TARGET} -L${ESMI_DIR}/lib)
 endif()
 
 ## Set the VERSION and SOVERSION values

@@ -37,7 +37,7 @@
  */
 
 #include <stdint.h>
-#include <rocm_smi.h>
+#include <rocm_smi/rocm_smi.h>
 #include "rocm_smi_go_shim.h"
 
 int32_t go_shim_rsmi_init()
