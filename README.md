@@ -1,4 +1,4 @@
-1. [AMD EPYC™ GO SMI Binding](#desc)
+1. [GO AMD SMI Binding](#desc)
 2. [Importing the GO SMI Binding](#import)
 3. [GO APIs exported by the GO SMI Binding](#api)
 4. [The goamdsmi_shmi library](#shim)
@@ -6,27 +6,37 @@
 6. [Example Code](#example)
 
 <a name="desc"></a>
-# AMD EPYC™ GO SMI Binding (WIP)
+# GO AMD SMI (WIP)
 
-The AMD EPYC™ GO Binding is an interface between the [E-SMI In-Band C library](https://github.com/amd/esmi_ib_library.git), [ROCm SMI Library](https://github.com/RadeonOpenCompute/rocm_smi_lib.git), and any GO language application that needs to link with these libraries and call the APIs from the GO application. The GO binding is imported in the [AMD SMI Exporter](https://github.com/amd/amd_smi_exporter.git) to export information provided by the AMD E-SMI inband library and the ROCm SMI GPU library to the Prometheus server.
+GO AMD SMI provides GO binding for [E-SMI In-Band C library](https://github.com/amd/esmi_ib_library.git),
+[ROCm SMI Library](https://github.com/RadeonOpenCompute/rocm_smi_lib.git), and any
+GO language application that needs to link with these libraries and call the APIs
+from the GO application. The GO binding are imported in the
+[AMD SMI Exporter](https://github.com/amd/amd_smi_exporter.git) to export information
+provided by the AMD E-SMI inband library and the ROCm SMI GPU library to the Prometheus server.
 
 ## Important note about Versioning and Backward Compatibility
-The AMD EPYC™ GO Binding follows the E-SMI In-band library and the ROCm library in its releases, as it is dependent on the underlying libraries for its data. The binding is currently under development, and therefore subject to change.
+The GO AMD SMI Binding follows the E-SMI In-band library and the ROCm library in its releases,
+as it is dependent on the underlying libraries for its data. The binding is currently under
+development, and therefore subject to change.
 
-While every effort will be made to ensure stable backward compatibility in software releases with a major version greater than 0, any code/interface may be subject to rivision/change while the major version remains 0.
+While every effort will be made to ensure stable backward compatibility in software releases with
+a major version greater than 0, any code/interface may be subject to rivision/change while the
+major version remains 0.
 
 ## Downloading the code
 
 The GO SMI Binding code may be downloaded from:
 
-	<https://github.com/amd/goamdsmi.git>
+	<https://github.com/amd/go_amd_smi.git>
 
-This repository contains the go binding and the goamdsmi_shim library code that may be built independently.
+This repository contains the go binding and the goamdsmi_shim library code requires the dependent
+libraries esmi in-band and rocm_smi libraries to be installed on the system.
 
 <a name="import"></a>
 # Importing the GO SMI Binding in your code
 
-The GO SMI binding may be imported into your go code by adding the following import line to your GO code:
+The GO SMI binding may be imported into go code by adding the following import line:
 
 	```import "github.com/amd/goamdsmi"```
 
@@ -36,20 +46,29 @@ The GO SMI binding may be imported into your go code by adding the following imp
 	- ROCm SMI library("https://github.com/RadeonOpenCompute/rocm_smi_lib")
 	- goamdsmi_shim library ("https://github.com/amd/goamdsmi/goamdsmi_shim")
 
-for linkage, and the libraries are expected to be installed in the **"/opt/esmi/lib", "/opt/rocm/lib", and "/opt/goamdsmi/lib"** directories respectively by default, or subject to config changes applied to the library path. Please refer to the README.md of the E-SMI and ROCm SMI repositories for build and installation instructions. The following header file(s) are included in this repository:
+for linkage, and the libraries are expected to be installed in the **"/opt/e-sms/e_smi/lib",
+"/opt/rocm/rocm_smi/lib", and "/opt/goamdsmi/lib"** directories respectively by default, or subject
+to config changes applied to the library path. Please refer to the README.md of the E-SMI and
+ROCm SMI repositories for build and installation instructions. The following header file(s) are
+included in this repository:
 
-	* ```smi_go_shim.h```
+	* ```esmi_go_shim.h```
+	* ```rocm_smi_go_shim.h```
 
 <a name="shim"></a>
 # The goamdsmi_shim library
 
-The goamdsmi_shim is the wrapper library over the AMD E_SMI and ROCm library APIs. This shim library provides entry points to the goamdsmi GO language binding. This library code is built independently into a shared library that has a dependency on the E-SMI and ROCm libraries.
+The goamdsmi_shim is the wrapper library over the AMD E_SMI and ROCm library APIs. This shim
+library provides entry points to the goamdsmi GO language binding. This library code is built
+independently into a shared library that has a dependency on the E-SMI and ROCm libraries.
 
 <a name="build_shim"></a>
 # Building the goamdsmi_shim library
 
 ## Additional Required software for building
-In order to build the goamdsmi_shim library, the following components are required. Note that the software versions listed are what is being used in development. Earlier versions are not guaranteed to work:
+In order to build the goamdsmi_shim library, the following components are required. Note that the
+software versions listed are what is being used in development. Earlier versions are not guaranteed
+to work:
 * CMake (v3.5.0)
 
 Building the library is achieved by following the typical CMake build sequence, as follows.
@@ -60,7 +79,7 @@ Building the library is achieved by following the typical CMake build sequence, 
 #### ```$ make```
 The built library will appear in the `build` folder.
 
-#### ```# Install library file and header; default location is /opt/esmi```
+#### ```# Install library file and header; default location is /opt/goamdsmi/```
 #### ```$ sudo make install```
 
 <a name="api"></a>
@@ -89,6 +108,14 @@ The built library will appear in the `build` folder.
 ## GO_rsmi_dev_temp_metric_get()
 	### Input: int value of dev index, sensor and metric
 	### Return: uint64_t value of current temperature. ZERO is a failure
+
+## GO_rsmi_dev_gpu_clk_freq_get_sclk()
+	### Input: int value of dev index
+	### Return: uint64_t value of system frequency
+
+## GO_rsmi_dev_gpu_clk_freq_get_mclk()
+	### Input: int value of dev index
+	### Return: uint64_t value of memory frequency
 
 ## GO_esmi_init()
 	### Input: none
