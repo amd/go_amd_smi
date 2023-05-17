@@ -114,3 +114,15 @@ uint64_t go_shim_rsmi_dev_gpu_clk_freq_get_mclk(uint32_t dv_ind)
 
 	return 0;
 }
+
+
+uint64_t go_shim_rsmi_dev_gpu_busy_percent_get(uint32_t dv_ind)
+{
+	 uint64_t usage = 0;
+
+        if(RSMI_STATUS_SUCCESS == rsmi_dev_busy_percent_get(dv_ind, &usage))
+                return usage;
+
+        return 0;
+}
+

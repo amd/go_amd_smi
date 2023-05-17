@@ -156,3 +156,20 @@ uint64_t go_shim_rsmi_dev_gpu_clk_freq_get_sclk(uint32_t dv_ind);
  *
  */
 uint64_t go_shim_rsmi_dev_gpu_clk_freq_get_mclk(uint32_t dv_ind);
+
+/**
+ *  @brief Go language stub to get the GPU Activity
+ *
+ *  @details This function will call the rsmi_dev_gpu_activity_get()
+ *  function to return the current GPU use. This value is then
+ *  passed as a uint64_t val to the Go routine that
+ *  called it.
+ *
+ *  @param[in] ::uint32_t device index, flag, ptr to rsmi_frequencies_t
+ *
+ *  @retval ::uint64_t GPU Activity use
+ *  @retval zero is returned upon failure.
+ *
+ */
+uint64_t go_shim_rsmi_dev_gpu_busy_percent_get(uint32_t dv_ind);
+
