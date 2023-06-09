@@ -83,6 +83,10 @@ func GO_rsmi_dev_gpu_busy_percent_get(i int) (C.uint64_t) {
         return C.go_shim_rsmi_dev_gpu_busy_percent_get(C.uint(i))
 }
 
+func GO_rsmi_dev_gpu_memory_busy_percent_get(i int) (C.uint64_t) {
+        return C.go_shim_rsmi_dev_gpu_memory_busy_percent_get(C.uint(i))
+}
+
 func GO_esmi_init() (uint) {
 	return uint(C.go_shim_esmi_init())
 }
