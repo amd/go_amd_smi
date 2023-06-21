@@ -126,3 +126,15 @@ uint64_t go_shim_rsmi_dev_gpu_busy_percent_get(uint32_t dv_ind)
         return 0;
 }
 
+
+uint64_t go_shim_rsmi_dev_gpu_memory_busy_percent_get(uint32_t dv_ind)
+{
+         uint64_t usage = 0;
+	 uint64_t total = 0;
+
+        if(RSMI_STATUS_SUCCESS == rsmi_dev_memory_usage_get(dv_ind, RSMI_MEM_TYPE_VRAM, &usage) && 
+	   RSMI_STATUS_SUCCESS == rsmi_dev_memory_total_get(dv_ind, RSMI_MEM_TYPE_VRAM, &total))
+		return (uint64_t)(usage*100)/total;
+
+	return 0;
+}

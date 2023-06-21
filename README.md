@@ -121,6 +121,11 @@ The built library will appear in the `build` folder.
         ### Input: int value of dev index
         ### Return: uint64_t value of GPU Use percent
 
+## GO_rsmi_dev_gpu_memory_busy_percent_get()
+        ### Input: int value of dev index
+        ### Return: uint64_t value of GPU memory busy percent
+
+
 ## GO_esmi_init()
 	### Input: none
 	### Return: uint status where ZERO is a failure
