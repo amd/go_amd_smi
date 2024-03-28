@@ -97,6 +97,10 @@ The built library will appear in the `build` folder.
 	### Input: none
 	### Return: uint value of GPU dev id.  ZERO is a failure
 
+## GO_rsmi_dev_pci_id_get()
+        ### Input: int value of dev index
+        ### Return: uint64_t value of the unique pci id. ZERO is a failure
+
 ## GO_rsmi_dev_power_cap_get()
 	### Input: int value of dev index
 	### Return: uint64_t value of power cap. ZERO is a failure
