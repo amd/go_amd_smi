@@ -46,6 +46,16 @@
 int32_t go_shim_rsmi_init();
 
 /**
+ *  @brief Go language stub to shut down the ROCm-SMI library
+ *  and do necessary clean up
+ *
+ *  @retval ::int32_t value of 1 upon success
+ *  @retval Zero is returned upon failure.
+ *
+ */
+int32_t go_shim_rsmi_shutdown();
+
+/**
  *  @brief Go language stub to get the number of GPU devices
  *
  *  @details This function will call the rsmi_num_monitor_devices()
@@ -62,6 +72,23 @@ int32_t go_shim_rsmi_init();
 int32_t go_shim_rsmi_num_monitor_devices();
 
 /**
+ *  @brief Go language stub to get the gpu device name string
+ *
+ *  @details This function will call the rsmi_dev_name_get()
+ *  function to write the gpu device name string (up to len characters)
+ *  for device dv_ind and return a char pointer. This value is then
+ *  passed as char * to the Go routine that called it. The caller of this
+ *  function must free the allocated buffer for the device name.
+ *
+ *  @param[in] ::uint32_t device index
+ *
+ *  @retval ::char* VBIOS identifier
+ *  @retval NULL is returned upon failure.
+ *
+ */
+char* go_shim_rsmi_dev_name_get(uint32_t dv_ind);
+
+/**
  *  @brief Go language stub to get the GPU device id
  *
  *  @details This function will call the rsmi_dev_id_get()
@@ -76,6 +103,59 @@ int32_t go_shim_rsmi_num_monitor_devices();
  *
  */
 uint16_t go_shim_rsmi_dev_id_get(uint32_t dv_ind);
+
+/**
+ *  @brief Go language stub to get the GPU unique pci id
+ *
+ *  @details This function will call the rsmi_dev_pci_id_get()
+ *  function to return the unique PCI device identifier
+ *  associated for a device. This value is then passed as
+ *  a uint64_t val to the Go routine that called it.
+ *
+ *  @param[in] ::uint32_t device index
+ *
+ *  @retval ::uint64_t value of pci id
+ *  @retval zero is returned upon failure.
+ *
+ */
+uint64_t go_shim_rsmi_dev_pci_id_get(uint32_t dv_ind);
+
+/**
+ *  @brief Go language stub to get the VBIOS identifier string
+ *
+ *  @details This function will call the rsmi_dev_vbios_ver_get()
+ *  function to write the VBIOS char array (up to len characters)
+ *  for device dv_ind and return a char pointer. This value is then
+ *  passed as char pointer to the Go routine that called it. The caller
+ *  of this funcion must free the allocated buffer for the vbios
+ *  identifier
+ *
+ *  @param[in] ::uint32_t device index
+ *  @param[in] ::char* vbios buffer of length
+ *
+ *  @retval ::char* VBIOS identifier
+ *  @retval NULL is returned upon failure
+ *
+ */
+char* go_shim_rsmi_dev_vbios_version_get(uint32_t dv_ind);
+
+/**
+ *  @brief Go language stub to get the vendor
+ *
+ *  @details This function will call the rsmi_dev_vendor_name_get()
+ *  function to write the name of the vendor char array (up to len
+ *  characters) for a device dv_ind and return a char pointer. This
+ *  value is then passed as a char pointer to the Go routine that
+ *  called it. The caller of this funcion must free the allocated
+ *  buffer for the vbios identifier
+ *
+ *  @param[in] ::uint32_t device index
+ *
+ *  @retval ::uint16_t value of subsystem id
+ *  @retval NULL is returned upon failure.
+ *
+ */
+char* go_shim_rsmi_dev_vendor_name_get(uint32_t dv_ind);
 
 /**
  *  @brief Go language stub to get the GPU power cap
@@ -126,6 +206,54 @@ uint64_t go_shim_rsmi_dev_power_ave_get(uint32_t dv_ind);
 uint64_t go_shim_rsmi_dev_temp_metric_get(uint32_t dv_ind, uint32_t sensor, uint32_t metric);
 
 /**
+ *  @brief Go language stub to get the overdrive level of the device
+ *
+ *  @details This function will call the rsmi_dev_overdrive_level_get()
+ *  function to return the overdrive percentage. This value is then
+ *  passed as a uint32_t val to the Go routine that
+ *  called it.
+ *
+ *  @param[in] ::uint32_t device index
+ *
+ *  @retval ::uint32_t overdrive level
+ *  @retval zero is returned upon failure.
+ *
+ */
+uint32_t go_shim_rsmi_dev_overdrive_level_get(uint32_t dv_ind);
+
+/**
+ *  @brief Go language stub to get the memory overdrive level of the device
+ *
+ *  @details This function will call the rsmi_dev_mem_overdrive_level_get()
+ *  function to return the memory overdrive percentage. This value is then
+ *  passed as a uint32_t val to the Go routine that
+ *  called it.
+ *
+ *  @param[in] ::uint32_t device index
+ *
+ *  @retval ::uint32_t memory overdrive level
+ *  @retval zero is returned upon failure.
+ *
+ */
+uint32_t go_shim_rsmi_dev_mem_overdrive_level_get(uint32_t dv_ind);
+
+/**
+ *  @brief Go language stub to get the performance level of the device
+ *
+ *  @details This function will call the rsmi_dev_perf_level_get()
+ *  function to return the  rsmi_dev_perf_level_t. This value is then
+ *  passed as a uint32_t val to the Go routine that
+ *  called it.
+ *
+ *  @param[in] ::uint32_t device index
+ *
+ *  @retval ::uint32_t performance level (rsmi_dev_perf_level_t)
+ *  @retval zero is returned upon failure.
+ *
+ */
+uint32_t go_shim_rsmi_dev_perf_level_get(uint32_t dv_ind);
+
+/**
  *  @brief Go language stub to get the GPU SCLK limit
  *
  *  @details This function will call the rsmi_dev_gpu_clk_freq_get()
@@ -156,6 +284,70 @@ uint64_t go_shim_rsmi_dev_gpu_clk_freq_get_sclk(uint32_t dv_ind);
  *
  */
 uint64_t go_shim_rsmi_dev_gpu_clk_freq_get_mclk(uint32_t dv_ind);
+
+/**
+ *  @brief Go language stub to get the minimum supported SCLK frequency
+ *
+ *  @details This function will call the rsmi_od_volt_freq_data_get()
+ *  function to return the minium supported SCLK frequency.
+ *  This value is then passed as a uint64_t val to the Go routine that
+ *  called it.
+ *
+ *  @param[in] ::uint32_t device index
+ *
+ *  @retval ::uint64_t mimimum supported sclk frequency
+ *  @retval zero is returned upon failure.
+ *
+ */
+uint64_t go_shim_rsmi_od_volt_freq_range_min_get_sclk(uint32_t dv_ind);
+
+/**
+ *  @brief Go language stub to get the minimum supported MCLK frequency
+ *
+ *  @details This function will call the rsmi_od_volt_freq_data_get()
+ *  function to return the minium supported MCLK frequency.
+ *  This value is then passed as a uint64_t val to the Go routine that
+ *  called it.
+ *
+ *  @param[in] ::uint32_t device index
+ *
+ *  @retval ::uint64_t mimimum supported mclk sfrequency
+ *  @retval zero is returned upon failure.
+ *
+ */
+uint64_t go_shim_rsmi_od_volt_freq_range_min_get_mclk(uint32_t dv_ind);
+
+/**
+ *  @brief Go language stub to get the maximum supported SCLK frequency
+ *
+ *  @details This function will call the rsmi_od_volt_freq_data_get()
+ *  function to return the maxium supported SCLK frequency.
+ *  This value is then passed as a uint64_t val to the Go routine that
+ *  called it.
+ *
+ *  @param[in] ::uint32_t device index
+ *
+ *  @retval ::uint64_t maximum supported sclk frequency
+ *  @retval zero is returned upon failure.
+ *
+ */
+uint64_t go_shim_rsmi_od_volt_freq_range_max_get_sclk(uint32_t dv_ind);
+
+/**
+ *  @brief Go language stub to get the maximum supported MCLK frequency
+ *
+ *  @details This function will call the rsmi_od_volt_freq_data_get()
+ *  function to return the maxium supported MCLK frequency.
+ *  This value is then passed as a uint64_t val to the Go routine that
+ *  called it.
+ *
+ *  @param[in] ::uint32_t device index
+ *
+ *  @retval ::uint64_t maximum supported mclk sfrequency
+ *  @retval zero is returned upon failure.
+ *
+ */
+uint64_t go_shim_rsmi_od_volt_freq_range_max_get_mclk(uint32_t dv_ind);
 
 /**
  *  @brief Go language stub to get the GPU Activity
