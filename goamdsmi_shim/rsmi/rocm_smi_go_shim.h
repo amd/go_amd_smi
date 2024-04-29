@@ -188,3 +188,37 @@ uint64_t go_shim_rsmi_dev_gpu_busy_percent_get(uint32_t dv_ind);
  *
  */
 uint64_t go_shim_rsmi_dev_gpu_memory_busy_percent_get(uint32_t dv_ind);
+
+/**
+ *  @brief Go language stub to get the GPU Memory Usage
+ *
+ *  @details This function will call the rsmi_dev_memory_usage_get()
+ *  function to return the amount of memory currently being used. This value is then
+ *  passed as a uint64_t val to the Go routine that
+ *  called it.
+ *
+ *  @param[in] ::uint32_t device index, flag, ptr to rsmi_frequencies_t
+ *
+ *  @retval ::uint64_t GPU memory usage
+ *  @retval zero is returned upon failure.
+ *
+ */
+uint64_t go_shim_rsmi_dev_gpu_memory_usage_get(uint32_t dv_ind);
+
+/**
+ *  @brief Go language stub to get the Total amount of GPU Memory
+ *
+ *  @details This function will call the rsmi_dev_memory_total_get()
+ *  function to return the total amount of memory. This value is then
+ *  passed as a uint64_t val to the Go routine that
+ *  called it.
+ *
+ *  @param[in] ::uint32_t device index, flag, ptr to rsmi_frequencies_t
+ *
+ *  @retval ::uint64_t Total GPU memory
+ *  @retval zero is returned upon failure.
+ *
+ */
+uint64_t go_shim_rsmi_dev_gpu_memory_total_get(uint32_t dv_ind);
+
+
