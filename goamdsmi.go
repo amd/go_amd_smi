@@ -51,12 +51,32 @@ func GO_rsmi_init() (uint) {
 	return uint(C.go_shim_rsmi_init())
 }
 
+func GO_rsmi_shutdown() (uint) {
+        return uint(C.go_shim_rsmi_shutdown())
+}
+
 func GO_rsmi_num_monitor_devices() (uint) {
 	return uint(C.go_shim_rsmi_num_monitor_devices())
 }
 
+func GO_rsmi_dev_name_get(i int) (*C.char) {
+        return C.go_shim_rsmi_dev_name_get(C.uint(i))
+}
+
 func GO_rsmi_dev_id_get(i int) (C.uint16_t) {
 	return C.uint16_t(C.go_shim_rsmi_dev_id_get(C.uint(i)))
+}
+
+func GO_rsmi_dev_pci_id_get(i int) (C.uint64_t) {
+        return C.go_shim_rsmi_dev_pci_id_get(C.uint(i))
+}
+
+func GO_rsmi_dev_vbios_version_get(i int) (*C.char) {
+        return C.go_shim_rsmi_dev_vbios_version_get(C.uint(i))
+}
+
+func GO_rsmi_dev_vendor_name_get(i int) (*C.char) {
+        return C.go_shim_rsmi_dev_vendor_name_get(C.uint(i))
 }
 
 func GO_rsmi_dev_power_cap_get(i int) (C.uint64_t) {
@@ -71,12 +91,40 @@ func GO_rsmi_dev_temp_metric_get(i int, sensor int, metric int) (C.uint64_t) {
 	return C.go_shim_rsmi_dev_temp_metric_get(C.uint(i), C.uint(sensor), C.uint(metric))
 }
 
+func GO_rsmi_dev_perf_level_get(i int) (C.uint32_t) {
+        return C.go_shim_rsmi_dev_perf_level_get(C.uint(i))
+}
+
+func GO_rsmi_dev_overdrive_level_get(i int) (C.uint32_t) {
+        return C.go_shim_rsmi_dev_overdrive_level_get(C.uint(i))
+}
+
+func GO_rsmi_dev_mem_overdrive_level_get(i int) (C.uint32_t) {
+        return C.go_shim_rsmi_dev_mem_overdrive_level_get(C.uint(i))
+}
+
 func GO_rsmi_dev_gpu_clk_freq_get_sclk(i int) (C.uint64_t) {
 	return C.go_shim_rsmi_dev_gpu_clk_freq_get_sclk(C.uint(i))
 }
 
 func GO_rsmi_dev_gpu_clk_freq_get_mclk(i int) (C.uint64_t) {
 	return C.go_shim_rsmi_dev_gpu_clk_freq_get_mclk(C.uint(i))
+}
+
+func GO_rsmi_od_volt_freq_range_min_get_sclk(i int) (C.uint64_t) {
+        return C.go_shim_rsmi_od_volt_freq_range_min_get_sclk(C.uint(i))
+}
+
+func GO_rsmi_od_volt_freq_range_min_get_mclk(i int) (C.uint64_t) {
+        return C.go_shim_rsmi_od_volt_freq_range_min_get_mclk(C.uint(i))
+}
+
+func GO_rsmi_od_volt_freq_range_max_get_sclk(i int) (C.uint64_t) {
+        return C.go_shim_rsmi_od_volt_freq_range_max_get_sclk(C.uint(i))
+}
+
+func GO_rsmi_od_volt_freq_range_max_get_mclk(i int) (C.uint64_t) {
+        return C.go_shim_rsmi_od_volt_freq_range_max_get_mclk(C.uint(i))
 }
 
 func GO_rsmi_dev_gpu_busy_percent_get(i int) (C.uint64_t) {

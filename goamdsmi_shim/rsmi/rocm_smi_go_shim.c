@@ -45,6 +45,11 @@ int32_t go_shim_rsmi_init()
 	return (RSMI_STATUS_SUCCESS == rsmi_init(0)) ? 1 : 0;
 }
 
+int32_t go_shim_rsmi_shutdown()
+{
+        return (RSMI_STATUS_SUCCESS == rsmi_shut_down()) ? 1 : 0;
+}
+
 int32_t go_shim_rsmi_num_monitor_devices()
 {
 	uint32_t num_monitor_devs = 0;
@@ -55,6 +60,20 @@ int32_t go_shim_rsmi_num_monitor_devices()
 	return 0;
 }
 
+char* go_shim_rsmi_dev_name_get(uint32_t dv_ind)
+{
+        uint32_t len = 256;
+        char *dev_name = (char*)malloc(sizeof(char)*len);
+        dev_name[0] = '\0';
+
+        if(RSMI_STATUS_SUCCESS == rsmi_dev_name_get(dv_ind, dev_name, &len))
+        {
+                return dev_name;
+        }
+
+        return NULL;
+}
+
 uint16_t go_shim_rsmi_dev_id_get(uint32_t dv_ind)
 {
 	uint16_t id = 0;
@@ -63,6 +82,42 @@ uint16_t go_shim_rsmi_dev_id_get(uint32_t dv_ind)
 		return id;
 
 	return 0;
+}
+
+uint64_t go_shim_rsmi_dev_pci_id_get(uint32_t dv_ind)
+{
+        uint64_t id = 0;
+
+        if(RSMI_STATUS_SUCCESS == rsmi_dev_pci_id_get(dv_ind, &id))
+                return id;
+
+        return 0;
+}
+
+char* go_shim_rsmi_dev_vendor_name_get(uint32_t dv_ind)
+{
+        uint32_t len = 256;
+        char *vendor_name = (char*)malloc(sizeof(char)*len);
+        vendor_name[0] = '\0';
+
+        if(RSMI_STATUS_SUCCESS == rsmi_dev_vendor_name_get(dv_ind, vendor_name, &len))
+                return vendor_name;
+
+        return NULL;
+}
+
+char* go_shim_rsmi_dev_vbios_version_get(uint32_t dv_ind)
+{
+        uint32_t len = 256;
+        char *vbios_ver = (char*)malloc(sizeof(char)*len);
+        vbios_ver[0] = '\0';
+
+        if(RSMI_STATUS_SUCCESS == rsmi_dev_vbios_version_get(dv_ind, vbios_ver, &len))
+        {
+                return vbios_ver;
+        }
+
+        return NULL;
 }
 
 uint64_t go_shim_rsmi_dev_power_cap_get(uint32_t dv_ind)
@@ -95,6 +150,36 @@ uint64_t go_shim_rsmi_dev_temp_metric_get(uint32_t dv_ind, uint32_t sensor, uint
 	return 0;
 }
 
+uint32_t go_shim_rsmi_dev_overdrive_level_get(uint32_t dv_ind)
+{
+        uint32_t od;
+
+        if(RSMI_STATUS_SUCCESS == rsmi_dev_overdrive_level_get(dv_ind, &od))
+                return od;
+
+        return 0;
+}
+
+uint32_t go_shim_rsmi_dev_mem_overdrive_level_get(uint32_t dv_ind)
+{
+        uint32_t od;
+
+        if(RSMI_STATUS_SUCCESS == rsmi_dev_mem_overdrive_level_get(dv_ind, &od))
+                return od;
+
+        return 0;
+}
+
+uint32_t go_shim_rsmi_dev_perf_level_get(uint32_t dv_ind)
+{
+        rsmi_dev_perf_level_t perf;
+
+        if(RSMI_STATUS_SUCCESS == rsmi_dev_perf_level_get(dv_ind, &perf))
+                return perf;
+
+        return 0;
+}
+
 uint64_t go_shim_rsmi_dev_gpu_clk_freq_get_sclk(uint32_t dv_ind)
 {
 	rsmi_frequencies_t freq;
@@ -115,6 +200,45 @@ uint64_t go_shim_rsmi_dev_gpu_clk_freq_get_mclk(uint32_t dv_ind)
 	return 0;
 }
 
+uint64_t go_shim_rsmi_od_volt_freq_range_min_get_sclk(uint32_t dv_ind)
+{
+        rsmi_od_volt_freq_data_t odv;
+
+        if(RSMI_STATUS_SUCCESS == rsmi_dev_od_volt_info_get(dv_ind, &odv))
+                return odv.curr_sclk_range.lower_bound;
+
+        return 0;
+}
+
+uint64_t go_shim_rsmi_od_volt_freq_range_min_get_mclk(uint32_t dv_ind)
+{
+        rsmi_od_volt_freq_data_t odv;
+
+        if(RSMI_STATUS_SUCCESS == rsmi_dev_od_volt_info_get(dv_ind, &odv))
+                return odv.curr_mclk_range.lower_bound;
+
+        return 0;
+}
+
+uint64_t go_shim_rsmi_od_volt_freq_range_max_get_sclk(uint32_t dv_ind)
+{
+        rsmi_od_volt_freq_data_t odv;
+
+        if(RSMI_STATUS_SUCCESS == rsmi_dev_od_volt_info_get(dv_ind, &odv))
+                return odv.curr_sclk_range.upper_bound;
+
+        return 0;
+}
+
+uint64_t go_shim_rsmi_od_volt_freq_range_max_get_mclk(uint32_t dv_ind)
+{
+        rsmi_od_volt_freq_data_t odv;
+
+        if(RSMI_STATUS_SUCCESS == rsmi_dev_od_volt_info_get(dv_ind, &odv))
+                return odv.curr_mclk_range.upper_bound;
+
+        return 0;
+}
 
 uint64_t go_shim_rsmi_dev_gpu_busy_percent_get(uint32_t dv_ind)
 {
