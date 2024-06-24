@@ -40,7 +40,7 @@ package goamdsmi
 
 /*
 #cgo CFLAGS: -Wall -I/opt/goamdsmi/include
-#cgo LDFLAGS: -L/opt/e-sms/e_smi/lib -L/opt/rocm/rocm_smi/lib -lrocm_smi64 -L/opt/goamdsmi/lib -lgoamdsmi_shim64 -Wl,--unresolved-symbols=ignore-in-object-files
+#cgo LDFLAGS: -L/opt/e-sms/e_smi/lib -L/opt/rocm/lib -lrocm_smi64 -L/opt/goamdsmi/lib -lgoamdsmi_shim64 -Wl,--unresolved-symbols=ignore-in-object-files
 #include <stdint.h>
 #include <esmi_go_shim.h>
 #include <rocm_smi_go_shim.h>
