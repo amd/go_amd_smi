@@ -37,9 +37,12 @@
  */
 
 #include <stdint.h>
+#ifdef ROCM_BUILD
 #include <rocm_smi/rocm_smi.h>
+#endif
 #include "rocm_smi_go_shim.h"
 
+#ifdef ROCM_BUILD
 int32_t go_shim_rsmi_init()
 {
 	return (RSMI_STATUS_SUCCESS == rsmi_init(0)) ? 1 : 0;
@@ -282,4 +285,29 @@ uint64_t go_shim_rsmi_dev_gpu_memory_total_get(uint32_t dv_ind)
 
         return 0;
 }
-
+#else
+int32_t go_shim_rsmi_init() {return 0;}
+int32_t go_shim_rsmi_shutdown() {return 0;}
+int32_t go_shim_rsmi_num_monitor_devices() {return 0;}
+char* go_shim_rsmi_dev_name_get(uint32_t dv_ind) {return NULL;}
+uint16_t go_shim_rsmi_dev_id_get(uint32_t dv_ind) {return 0;}
+uint64_t go_shim_rsmi_dev_pci_id_get(uint32_t dv_ind) {return 0;}
+char* go_shim_rsmi_dev_vendor_name_get(uint32_t dv_ind) {return NULL;}
+char* go_shim_rsmi_dev_vbios_version_get(uint32_t dv_ind) {return NULL;}
+uint64_t go_shim_rsmi_dev_power_cap_get(uint32_t dv_ind) {return 0;}
+uint64_t go_shim_rsmi_dev_power_ave_get(uint32_t dv_ind) {return 0;}
+uint64_t go_shim_rsmi_dev_temp_metric_get(uint32_t dv_ind, uint32_t sensor, uint32_t metric) {return 0;}
+uint32_t go_shim_rsmi_dev_overdrive_level_get(uint32_t dv_ind) {return 0;}
+uint32_t go_shim_rsmi_dev_mem_overdrive_level_get(uint32_t dv_ind) {return 0;}
+uint32_t go_shim_rsmi_dev_perf_level_get(uint32_t dv_ind) {return 0;}
+uint64_t go_shim_rsmi_dev_gpu_clk_freq_get_sclk(uint32_t dv_ind) {return 0;}
+uint64_t go_shim_rsmi_dev_gpu_clk_freq_get_mclk(uint32_t dv_ind) {return 0;}
+uint64_t go_shim_rsmi_od_volt_freq_range_min_get_sclk(uint32_t dv_ind) {return 0;}
+uint64_t go_shim_rsmi_od_volt_freq_range_min_get_mclk(uint32_t dv_ind) {return 0;}
+uint64_t go_shim_rsmi_od_volt_freq_range_max_get_sclk(uint32_t dv_ind) {return 0;}
+uint64_t go_shim_rsmi_od_volt_freq_range_max_get_mclk(uint32_t dv_ind) {return 0;}
+uint64_t go_shim_rsmi_dev_gpu_busy_percent_get(uint32_t dv_ind) {return 0;}
+uint64_t go_shim_rsmi_dev_gpu_memory_busy_percent_get(uint32_t dv_ind) {return 0;}
+uint64_t go_shim_rsmi_dev_gpu_memory_usage_get(uint32_t dv_ind) {return 0;}
+uint64_t go_shim_rsmi_dev_gpu_memory_total_get(uint32_t dv_ind) {return 0;}
+#endif
