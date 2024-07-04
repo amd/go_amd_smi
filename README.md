@@ -46,11 +46,13 @@ The GO SMI binding may be imported into go code by adding the following import l
 	- ROCm SMI library("https://github.com/RadeonOpenCompute/rocm_smi_lib")
 	- goamdsmi_shim library ("https://github.com/amd/goamdsmi/goamdsmi_shim")
 
-for linkage, and the libraries are expected to be installed in the **"/opt/e-sms/e_smi/lib",
-"/opt/rocm/rocm_smi/lib", and "/opt/goamdsmi/lib"** directories respectively by default, or subject
-to config changes applied to the library path. Please refer to the README.md of the E-SMI and
-ROCm SMI repositories for build and installation instructions. The following header file(s) are
-included in this repository:
+for linkage, and the libraries are expected to be installed in the 
+**"/opt/e-sms/e_smi/lib",
+  "/opt/rocm/lib", and
+  "/opt/goamdsmi/lib"**
+directories respectively by default, or subject to config changes applied to the library path.
+Please refer to the README.md of the E-SMI and ROCm SMI repositories for build and installation
+ instructions. The following header file(s) are included in this repository:
 
 	* ```esmi_go_shim.h```
 	* ```rocm_smi_go_shim.h```
@@ -75,12 +77,22 @@ Building the library is achieved by following the typical CMake build sequence, 
 #### ```$ cd goamdsmi_shim```
 #### ```$ mkdir -p build```
 #### ```$ cd build```
-#### ```$ cmake cmake -C ../amd_smi.cmake ../```
+#### ```$ cmake -C ../amd_smi.cmake ../```
 #### ```$ make```
 The built library will appear in the `build` folder.
 
 #### ```# Install library file and header; default location is /opt/goamdsmi/```
 #### ```$ sudo make install```
+
+** NOTE: ** The below combinations useful for compilation as per user requirement:
+#### ```$ cmake -C ../amd_smi.cmake ../```
+#### ```# The '-C' option will pick default -DWITH_ESMI=ON -DWITH_ROCM_SMI=ON```
+#### ```(or)```
+#### ```$ cmake ../amd_smi.cmake ../```
+#### ```# The above command will pick default -DWITH_ESMI=OFF -DWITH_ROCM_SMI=ON```
+#### ```(or)```
+#### ```$ cmake -DWITH_ESMI=ON  -DWITH_ROCM_SMI=OFF ../amd_smi.cmake ../```
+#### ```The command useful if user needs to build as per the requirement```
 
 <a name="api"></a>
 # GO APIs exported by the GO SMI Binding
