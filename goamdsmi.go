@@ -40,146 +40,150 @@ package goamdsmi
 
 /*
 #cgo CFLAGS: -Wall -I/opt/goamdsmi/include
-#cgo LDFLAGS: -L/opt/e-sms/e_smi/lib -L/opt/rocm/lib -L/opt/goamdsmi/lib -lgoamdsmi_shim64 -Wl,--unresolved-symbols=ignore-in-object-files
+#cgo LDFLAGS: -L/opt/e-sms/e_smi/lib -L/opt/rocm/lib -L/opt/rocm/lib64 -L/opt/goamdsmi/lib -lgoamdsmi_shim64 -Wl,--unresolved-symbols=ignore-in-object-files
 #include <stdint.h>
+#include <goamdsmi.h>
+#include <goamdsmi_shim.h>
 #include <esmi_go_shim.h>
 #include <rocm_smi_go_shim.h>
+#include <amdsmi_go_shim.h>
 */
 import "C"
 
-func GO_rsmi_init() (uint) {
-	return uint(C.go_shim_rsmi_init())
+//GPU ROCM or AMDSMI calls
+func GO_gpu_init() (bool) {
+	return bool(C.goamdsmi_gpu_init())
 }
 
-func GO_rsmi_shutdown() (uint) {
-        return uint(C.go_shim_rsmi_shutdown())
+func GO_gpu_shutdown() (bool) {
+	return bool(C.goamdsmi_gpu_shutdown())
 }
 
-func GO_rsmi_num_monitor_devices() (uint) {
-	return uint(C.go_shim_rsmi_num_monitor_devices())
+func GO_gpu_num_monitor_devices() (uint) {
+	return uint(C.goamdsmi_gpu_num_monitor_devices())
 }
 
-func GO_rsmi_dev_name_get(i int) (*C.char) {
-        return C.go_shim_rsmi_dev_name_get(C.uint(i))
+func GO_gpu_dev_name_get(i int) (*C.char) {
+	return C.goamdsmi_gpu_dev_name_get(C.uint(i))
 }
 
-func GO_rsmi_dev_id_get(i int) (C.uint16_t) {
-	return C.uint16_t(C.go_shim_rsmi_dev_id_get(C.uint(i)))
+func GO_gpu_dev_id_get(i int) (C.uint16_t) {
+	return C.uint16_t(C.goamdsmi_gpu_dev_id_get(C.uint(i)))
 }
 
-func GO_rsmi_dev_pci_id_get(i int) (C.uint64_t) {
-        return C.go_shim_rsmi_dev_pci_id_get(C.uint(i))
+func GO_gpu_dev_pci_id_get(i int) (C.uint64_t) {
+	return C.goamdsmi_gpu_dev_pci_id_get(C.uint(i))
 }
 
-func GO_rsmi_dev_vbios_version_get(i int) (*C.char) {
-        return C.go_shim_rsmi_dev_vbios_version_get(C.uint(i))
+func GO_gpu_dev_vbios_version_get(i int) (*C.char) {
+	return C.goamdsmi_gpu_dev_vbios_version_get(C.uint(i))
 }
 
-func GO_rsmi_dev_vendor_name_get(i int) (*C.char) {
-        return C.go_shim_rsmi_dev_vendor_name_get(C.uint(i))
+func GO_gpu_dev_vendor_name_get(i int) (*C.char) {
+	return C.goamdsmi_gpu_dev_vendor_name_get(C.uint(i))
 }
 
-func GO_rsmi_dev_power_cap_get(i int) (C.uint64_t) {
-	return C.go_shim_rsmi_dev_power_cap_get(C.uint(i))
+func GO_gpu_dev_power_cap_get(i int) (C.uint64_t) {
+    return C.goamdsmi_gpu_dev_power_cap_get(C.uint(i))
 }
 
-func GO_rsmi_dev_power_ave_get(i int) (C.uint64_t) {
-	return C.go_shim_rsmi_dev_power_ave_get(C.uint(i))
+func GO_gpu_dev_power_get(i int) (C.uint64_t) {
+    return C.goamdsmi_gpu_dev_power_get(C.uint(i))
 }
 
-func GO_rsmi_dev_temp_metric_get(i int, sensor int, metric int) (C.uint64_t) {
-	return C.go_shim_rsmi_dev_temp_metric_get(C.uint(i), C.uint(sensor), C.uint(metric))
+func GO_gpu_dev_temp_metric_get(i int, sensor int, metric int) (C.uint64_t) {
+    return C.goamdsmi_gpu_dev_temp_metric_get(C.uint(i), C.uint(sensor), C.uint(metric))
 }
 
-func GO_rsmi_dev_perf_level_get(i int) (C.uint32_t) {
-        return C.go_shim_rsmi_dev_perf_level_get(C.uint(i))
+func GO_gpu_dev_perf_level_get(i int) (C.uint32_t) {
+	return C.goamdsmi_gpu_dev_perf_level_get(C.uint(i))
 }
 
-func GO_rsmi_dev_overdrive_level_get(i int) (C.uint32_t) {
-        return C.go_shim_rsmi_dev_overdrive_level_get(C.uint(i))
+func GO_gpu_dev_overdrive_level_get(i int) (C.uint32_t) {
+	return C.goamdsmi_gpu_dev_overdrive_level_get(C.uint(i))
 }
 
-func GO_rsmi_dev_mem_overdrive_level_get(i int) (C.uint32_t) {
-        return C.go_shim_rsmi_dev_mem_overdrive_level_get(C.uint(i))
+func GO_gpu_dev_mem_overdrive_level_get(i int) (C.uint32_t) {
+	return C.goamdsmi_gpu_dev_mem_overdrive_level_get(C.uint(i))
 }
 
-func GO_rsmi_dev_gpu_clk_freq_get_sclk(i int) (C.uint64_t) {
-	return C.go_shim_rsmi_dev_gpu_clk_freq_get_sclk(C.uint(i))
+func GO_gpu_dev_gpu_clk_freq_get_sclk(i int) (C.uint64_t) {
+	return C.goamdsmi_gpu_dev_gpu_clk_freq_get_sclk(C.uint(i))
 }
 
-func GO_rsmi_dev_gpu_clk_freq_get_mclk(i int) (C.uint64_t) {
-	return C.go_shim_rsmi_dev_gpu_clk_freq_get_mclk(C.uint(i))
+func GO_gpu_dev_gpu_clk_freq_get_mclk(i int) (C.uint64_t) {
+    return C.goamdsmi_gpu_dev_gpu_clk_freq_get_mclk(C.uint(i))
 }
 
-func GO_rsmi_od_volt_freq_range_min_get_sclk(i int) (C.uint64_t) {
-        return C.go_shim_rsmi_od_volt_freq_range_min_get_sclk(C.uint(i))
+func GO_gpu_od_volt_freq_range_min_get_sclk(i int) (C.uint64_t) {
+	return C.goamdsmi_gpu_od_volt_freq_range_min_get_sclk(C.uint(i))
 }
 
-func GO_rsmi_od_volt_freq_range_min_get_mclk(i int) (C.uint64_t) {
-        return C.go_shim_rsmi_od_volt_freq_range_min_get_mclk(C.uint(i))
+func GO_gpu_od_volt_freq_range_min_get_mclk(i int) (C.uint64_t) {
+	return C.goamdsmi_gpu_od_volt_freq_range_min_get_mclk(C.uint(i))
 }
 
-func GO_rsmi_od_volt_freq_range_max_get_sclk(i int) (C.uint64_t) {
-        return C.go_shim_rsmi_od_volt_freq_range_max_get_sclk(C.uint(i))
+func GO_gpu_od_volt_freq_range_max_get_sclk(i int) (C.uint64_t) {
+	return C.goamdsmi_gpu_od_volt_freq_range_max_get_sclk(C.uint(i))
 }
 
-func GO_rsmi_od_volt_freq_range_max_get_mclk(i int) (C.uint64_t) {
-        return C.go_shim_rsmi_od_volt_freq_range_max_get_mclk(C.uint(i))
+func GO_gpu_od_volt_freq_range_max_get_mclk(i int) (C.uint64_t) {
+	return C.goamdsmi_gpu_od_volt_freq_range_max_get_mclk(C.uint(i))
 }
 
-func GO_rsmi_dev_gpu_busy_percent_get(i int) (C.uint64_t) {
-        return C.go_shim_rsmi_dev_gpu_busy_percent_get(C.uint(i))
+func GO_gpu_dev_gpu_busy_percent_get(i int) (C.uint32_t) {
+	return C.goamdsmi_gpu_dev_gpu_busy_percent_get(C.uint(i))
 }
 
-func GO_rsmi_dev_gpu_memory_busy_percent_get(i int) (C.uint64_t) {
-        return C.go_shim_rsmi_dev_gpu_memory_busy_percent_get(C.uint(i))
+func GO_gpu_dev_gpu_memory_busy_percent_get(i int) (C.uint64_t) {
+	return C.goamdsmi_gpu_dev_gpu_memory_busy_percent_get(C.uint(i))
 }
 
-func GO_rsmi_dev_gpu_memory_usage_get (i int) (C.uint64_t) {
-	return C.go_shim_rsmi_dev_gpu_memory_usage_get(C.uint(i))
+func GO_gpu_dev_gpu_memory_usage_get (i int) (C.uint64_t) {
+	return C.goamdsmi_gpu_dev_gpu_memory_usage_get(C.uint(i))
 }
 
-func GO_rsmi_dev_gpu_memory_total_get (i int) (C.uint64_t) {
-        return C.go_shim_rsmi_dev_gpu_memory_total_get(C.uint(i))
+func GO_gpu_dev_gpu_memory_total_get (i int) (C.uint64_t) {
+	return C.goamdsmi_gpu_dev_gpu_memory_total_get(C.uint(i))
 }
 
-func GO_esmi_init() (uint) {
-	return uint(C.go_shim_esmi_init())
+//CPU ESMI or AMDSMI calls
+func GO_cpu_init() (bool) {
+	return bool(C.goamdsmi_cpu_init())
 }
 
-func GO_esmi_number_of_sockets_get() (uint) {
-	return uint(C.go_shim_esmi_number_of_sockets_get())
+func GO_cpu_number_of_sockets_get() (uint) {
+	return uint(C.goamdsmi_cpu_number_of_sockets_get())
 }
 
-func GO_esmi_number_of_threads_get() (uint) {
-	return uint(C.go_shim_esmi_number_of_threads_get())
+func GO_cpu_number_of_threads_get() (uint) {
+	return uint(C.goamdsmi_cpu_number_of_threads_get())
 }
 
-func GO_esmi_threads_per_core_get() (uint) {
-	return uint(C.go_shim_esmi_threads_per_core_get())
+func GO_cpu_threads_per_core_get() (uint) {
+	return uint(C.goamdsmi_cpu_threads_per_core_get())
 }
 
-func GO_esmi_core_energy_get(i int) (C.uint64_t) {
-	return C.go_shim_esmi_core_energy_get(C.uint(i))
+func GO_cpu_core_energy_get(i int) (C.uint64_t) {
+	return C.goamdsmi_cpu_core_energy_get(C.uint(i))
 }
 
-func GO_esmi_core_boostlimit_get(i int) (C.uint32_t) {
-	return C.go_shim_esmi_core_boostlimit_get(C.uint(i))
+func GO_cpu_core_boostlimit_get(i int) (C.uint32_t) {
+	return C.goamdsmi_cpu_core_boostlimit_get(C.uint(i))
 }
 
-func GO_esmi_socket_energy_get(i int) (C.uint64_t) {
-	return C.go_shim_esmi_socket_energy_get(C.uint(i))
+func GO_cpu_socket_energy_get(i int) (C.uint64_t) {
+	return C.goamdsmi_cpu_socket_energy_get(C.uint(i))
 }
 
-func GO_esmi_socket_power_get(i int) (C.uint32_t) {
-	return C.go_shim_esmi_socket_power_get(C.uint(i))
+func GO_cpu_socket_power_get(i int) (C.uint32_t) {
+	return C.goamdsmi_cpu_socket_power_get(C.uint(i))
 }
 
-func GO_esmi_socket_power_cap_get(i int) (C.uint32_t) {
-	return C.go_shim_esmi_socket_power_cap_get(C.uint(i))
+func GO_cpu_socket_power_cap_get(i int) (C.uint32_t) {
+	return C.goamdsmi_cpu_socket_power_cap_get(C.uint(i))
 }
 
-func GO_esmi_prochot_status_get(i int) (C.uint32_t) {
-	return C.go_shim_esmi_prochot_status_get(C.uint(i))
+func GO_cpu_prochot_status_get(i int) (C.uint32_t) {
+	return C.goamdsmi_cpu_prochot_status_get(C.uint(i))
 }
-

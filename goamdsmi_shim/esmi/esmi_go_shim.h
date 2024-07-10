@@ -35,15 +35,46 @@
  * the Advanced Micro Devices, Inc.
  *
  */
-
+#include "goamdsmi.h"
 /**
  *  @brief Go language stub to initialize the E-SMI library
  *
- *  @retval ::int32_t value of 1 upon success
- *  @retval Zero is returned upon failure.
+ *  @retval GOAMDSMI_STATUS_SUCCESS is returned upon success.
+ *  @retval GOAMDSMI_STATUS_FAILURE is returned upon failure.
  *
  */
-int32_t go_shim_esmi_init();
+goamdsmi_status_t go_shim_esmi_init();
+
+/**
+ *  @brief Go stub to get the number of threads per core in the system
+ *
+ *  @param[in] ::uint32_t* Number of threads per core
+ *
+ *  @retval GOAMDSMI_STATUS_SUCCESS is returned upon success.
+ *  @retval GOAMDSMI_STATUS_FAILURE is returned upon failure.
+ */
+goamdsmi_status_t go_shim_esmi_threads_per_core_get(uint32_t* threads_per_core);
+
+/**
+ *  @brief Go stub to get the number of threads available in the system
+ *
+ *  @param[in] ::uint32_t* Number of threads
+ *
+ *  @retval GOAMDSMI_STATUS_SUCCESS is returned upon success.
+ *  @retval GOAMDSMI_STATUS_FAILURE is returned upon failure.
+ */
+goamdsmi_status_t go_shim_esmi_number_of_threads_get(uint32_t* number_of_threads);
+
+/**
+ *  @brief Go stub to get the total number of processor sockets
+ *  available in the system
+ *
+ *  @param[in] ::uint32_t* value of num of cpu sockets
+ *
+ *  @retval GOAMDSMI_STATUS_SUCCESS is returned upon success.
+ *  @retval GOAMDSMI_STATUS_FAILURE is returned upon failure.
+ */
+goamdsmi_status_t go_shim_esmi_number_of_sockets_get(uint32_t* number_of_sockets);
 
 /**
  *  @brief Go language stub to get the core energy for a given core
@@ -53,12 +84,13 @@ int32_t go_shim_esmi_init();
  *  This value is then passed as a uint64_t val to the Go routine that called it.
  *
  *  @param[in] num is the core index
+ *  @param[in] ::uint64_t* value of the penergy in micro Joules.
  *
- *  @retval ::uint64_t value of the penergy in micro Joules.
- *  @retval zero is returned upon failure.
+ *  @retval GOAMDSMI_STATUS_SUCCESS is returned upon success.
+ *  @retval GOAMDSMI_STATUS_FAILURE is returned upon failure.
  *
  */
-uint64_t go_shim_esmi_core_energy_get(uint32_t num);
+goamdsmi_status_t go_shim_esmi_core_energy_get(uint32_t num, uint64_t* core_energy);
 
 /**
  *  @brief Go language stub to get the socket energy for a given socket
@@ -69,12 +101,13 @@ uint64_t go_shim_esmi_core_energy_get(uint32_t num);
  *  the Go routine that called it.
  *
  *  @param[in] socket_idx is the socket index
+ *  @param[in] ::uint64_t* value of the socket energy counter
  *
- *  @retval ::uint64_t value of the socket energy counter
- *  @retval zero is returned upon failure.
+ *  @retval GOAMDSMI_STATUS_SUCCESS is returned upon success.
+ *  @retval GOAMDSMI_STATUS_FAILURE is returned upon failure.
  *
  */
-uint64_t go_shim_esmi_socket_energy_get(uint32_t socket_idx);
+goamdsmi_status_t go_shim_esmi_socket_energy_get(uint32_t socket_idx, uint64_t* socket_energy);
 
 /**
  *  @brief Go language stub to get normalized status of 
@@ -85,12 +118,14 @@ uint64_t go_shim_esmi_socket_energy_get(uint32_t socket_idx);
  *  PROCHOT at @p prochot.
  *
  *  @param[in] socket_idx a socket index
+ *  @param[in] ::uint32_t* value of the prochot status
  *
- *  @retval ::uint32_t value of the prochot status
- *  @retval Zero is returned upon failure or if status is inactive.
+ *  @retval GOAMDSMI_STATUS_SUCCESS is returned upon success.
+ *  @retval GOAMDSMI_STATUS_FAILURE is returned upon failure.
+ *
  *
  */
-uint32_t go_shim_esmi_prochot_status_get(uint32_t socket_idx);
+goamdsmi_status_t go_shim_esmi_prochot_status_get(uint32_t socket_idx, uint32_t* prochot);
 
 /**
  *  @brief Go language stub to get the instantaneous power 
@@ -100,12 +135,13 @@ uint32_t go_shim_esmi_prochot_status_get(uint32_t socket_idx);
  *  get the current power consumption (in milliwatts).
  *
  *  @param[in] sock_ind a socket index
+ *  @param[in] ::uint32_t* value of the socket power
  *
- *  @retval ::uint32_t value of the socket power
- *  @retval Zero is returned upon failure.
+ *  @retval GOAMDSMI_STATUS_SUCCESS is returned upon success.
+ *  @retval GOAMDSMI_STATUS_FAILURE is returned upon failure.
  *
  */
-uint32_t go_shim_esmi_socket_power_get(uint32_t sock_ind);
+goamdsmi_status_t go_shim_esmi_socket_power_get(uint32_t sock_ind, uint32_t* socket_power);
 
 /**
  *  @brief Go language stub to get the current power cap value 
@@ -116,12 +152,13 @@ uint32_t go_shim_esmi_socket_power_get(uint32_t sock_ind);
  *  the power usage (in milliwatts).
  *
  *  @param[in] sock_ind a socket index
+ *  @param[in] ::uint32_t* value of the socket power cap
  *
- *  @retval ::uint32_t value of the socket power cap
- *  @retval Zero is returned upon failure.
+ *  @retval GOAMDSMI_STATUS_SUCCESS is returned upon success.
+ *  @retval GOAMDSMI_STATUS_FAILURE is returned upon failure.
  *
  */
-uint32_t go_shim_esmi_socket_power_cap_get(uint32_t sock_ind);
+goamdsmi_status_t go_shim_esmi_socket_power_cap_get(uint32_t sock_ind, uint32_t* socket_power_cap);
 
 /**
  *  @brief Go language stub to get the boostlimit value for a given core
@@ -130,35 +167,11 @@ uint32_t go_shim_esmi_socket_power_cap_get(uint32_t sock_ind);
  *  @p boostlimit for a particular @p socket
  *
  *  @param[in] socket a socket index
+ *  @param[in] ::uint32_t* value of the boostlimit
  *
- *  @retval ::uint32_t value of the boostlimit
- *  @retval Zero is returned upon failure.
+ *  @retval GOAMDSMI_STATUS_SUCCESS is returned upon success.
+ *  @retval GOAMDSMI_STATUS_FAILURE is returned upon failure.
  *
  */
-uint32_t go_shim_esmi_core_boostlimit_get(uint32_t socket);
-
-/**
- *  @brief Go stub to get the number of threads per core in the system
- *
- *  @retval ::Number of threads per core
- *  @retval Zero is returned upon failure.
- */
-int32_t go_shim_esmi_threads_per_core_get();
-
-/**
- *  @brief Go stub to get the number of threads available in the system
- *
- *  @retval ::Number of threads
- *  @retval Zero is returned upon failure.
- */
-int32_t go_shim_esmi_number_of_threads_get();
-
-/**
- *  @brief Go stub to get the total number of processor sockets 
- *  available in the system
- *
- *  @retval ::int32_t value of the socket number
- *  @retval Zero is returned upon failure.
- */
-int32_t go_shim_esmi_number_of_sockets_get();
+goamdsmi_status_t go_shim_esmi_core_boostlimit_get(uint32_t socket, uint32_t* core_boostlimit);
 
