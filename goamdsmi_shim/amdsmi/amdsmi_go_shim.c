@@ -611,6 +611,16 @@ goamdsmi_status_t go_shim_amdsmigpu_od_volt_freq_range_max_get_mclk(uint32_t dv_
 
 goamdsmi_status_t go_shim_amdsmigpu_dev_gpu_busy_percent_get(uint32_t dv_ind, uint32_t* gpu_busy_percent)
 {
+    *gpu_busy_percent       = 0;
+     amdsmi_engine_usage_t amdsmi_engine_usage_temp;
+
+    if(AMDSMI_STATUS_SUCCESS == amdsmi_get_gpu_activity(amdsmi_processor_handle_all_gpu_device_across_socket[dv_ind], &amdsmi_engine_usage_temp))
+    {
+        *gpu_busy_percent = amdsmi_engine_usage_temp.gfx_activity;
+        if (enable_debug_level(GOAMDSMI_DEBUG_LEVEL_1)) {printf("AMDSMI, Success for Gpu:%d, GpuBusyPerc:%d\n", dv_ind, *gpu_busy_percent);}
+        return GOAMDSMI_STATUS_SUCCESS;
+    }
+    if (enable_debug_level(GOAMDSMI_DEBUG_LEVEL_3)) {printf("AMDSMI, Failed for Gpu:%d, GpuBusyPerc:%d\n", dv_ind, *gpu_busy_percent);}
     return GOAMDSMI_STATUS_FAILURE;
 }
 
