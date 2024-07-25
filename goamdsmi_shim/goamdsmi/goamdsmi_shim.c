@@ -67,7 +67,11 @@ bool goamdsmi_cpu_init()
         if(GOAMDSMI_STATUS_SUCCESS == esmi_)       {esmi_init = true;}
     }
     
-    if(amdsmicpu_init || esmi_init)             return true;
+    if(amdsmicpu_init || esmi_init)
+    {
+        if (enable_debug_level(GOAMDSMI_DEBUG_LEVEL_1)) {printf("GOAMDSMI, Success, CpuInit:true\n");}
+        return true;
+    }
 
     if (enable_debug_level(GOAMDSMI_DEBUG_LEVEL_1)) {printf("GOAMDSMI, Failed, CpuInit:false\n");}
     cpu_init = false;
@@ -188,7 +192,11 @@ bool goamdsmi_gpu_init()
         if(GOAMDSMI_STATUS_SUCCESS == rsmi_)       {rsmi_init = true;}
     }
 
-    if(amdsmigpu_init || rsmi_init)             return true;
+    if(amdsmigpu_init || rsmi_init)
+    {
+        if (enable_debug_level(GOAMDSMI_DEBUG_LEVEL_1)) {printf("GOAMDSMI, Success, GpuInit:true\n");}
+        return true;
+    }
 
     if (enable_debug_level(GOAMDSMI_DEBUG_LEVEL_1)) {printf("GOAMDSMI, Failed, GpuInit:false\n");}
     gpu_init = false;
