@@ -530,6 +530,23 @@ goamdsmi_status_t go_shim_amdsmigpu_dev_power_get(uint32_t dv_ind, uint64_t* gpu
         return GOAMDSMI_STATUS_SUCCESS;
     }
 
+    amdsmi_gpu_metrics_t metrics = {0};
+    if((dv_ind < num_gpu_devices_inAllSocket) && (AMDSMI_STATUS_SUCCESS == amdsmi_get_gpu_metrics_info(amdsmi_processor_handle_all_gpu_device_across_socket[dv_ind], &metrics)))
+    {
+        gpu_power_temp = metrics.average_socket_power;
+        if (enable_debug_level(GOAMDSMI_DEBUG_LEVEL_2)) {printf("AMDSMI, Success for Gpu:%d, GpuPowerAverageFromMetrics:%llu, GpuPowerAverageFromMetricsinWatt:%.6f\n", dv_ind, (unsigned long long)gpu_power_temp, ((double)(gpu_power_temp))/1000000);}
+
+        if(MAX_GPU_POWER_FROM_DRIVER == gpu_power_temp)
+        {
+            gpu_power_temp = metrics.current_socket_power;
+            if (enable_debug_level(GOAMDSMI_DEBUG_LEVEL_2)) {printf("AMDSMI, Success for Gpu:%d, GpuPowerCurrentFromMetrics:%llu, GpuPowerCurrentFromMetricsinWatt:%.6f\n", dv_ind, (unsigned long long)gpu_power_temp, ((double)(gpu_power_temp))/1000000);}
+        }
+        *gpu_power = gpu_power_temp;
+        *gpu_power = (*gpu_power)*1000000;//to maintain backward compatibity with old ROCM SMI
+        if (enable_debug_level(GOAMDSMI_DEBUG_LEVEL_1)) {printf("AMDSMI, Success for Gpu:%d, GpuPowerFromMetrics:%llu, GpuPowerFromMetricsinWatt:%.6f\n", dv_ind, (unsigned long long)(*gpu_power), ((double)(*gpu_power))/1000000);}
+        return GOAMDSMI_STATUS_SUCCESS;
+    }
+
     return GOAMDSMI_STATUS_FAILURE;
 }
 
