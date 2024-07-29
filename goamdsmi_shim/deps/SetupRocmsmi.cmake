@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: MIT
+if("${ROCM_SMI_DIR}" STREQUAL "")
+    set(ROCM_SMI_DIR "/opt/rocm")
+endif()
 
-set(ROCM_SMI_DIR "/opt/rocm")
 # First check for user-specified ROCM_SMI_DIR
 if(ROCM_SMI_DIR)
     message(STATUS "Looking for Rocm_smi using ROCM_SMI_DIR = ${ROCM_SMI_DIR}")

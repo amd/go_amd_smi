@@ -1,5 +1,8 @@
 # SPDX-License-Identifier: MIT
-set(ESMI_DIR "/opt/e-sms/e_smi")
+if("${ESMI_DIR}" STREQUAL "")
+    set(ESMI_DIR "/opt/e-sms/e_smi")
+endif()
+
 # First check for user-specified ESMI_DIR
 if(ESMI_DIR)
     message(STATUS "Looking for esmi using ESMI_DIR = ${ESMI_DIR}")

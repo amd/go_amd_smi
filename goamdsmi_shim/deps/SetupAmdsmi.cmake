@@ -1,5 +1,7 @@
 # SPDX-License-Identifier: MIT
-set(AMDSMI_DIR "/opt/rocm")
+if("${AMDSMI_DIR}" STREQUAL "")
+    set(AMDSMI_DIR "/opt/rocm")
+endif()
 
 # First check for user-specified AMDSMI_DIR
 if(AMDSMI_DIR)
