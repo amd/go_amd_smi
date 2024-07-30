@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: MIT
+# Copyright (c) 2024, Advanced Micro Devices, Inc.
+
 if("${ESMI_DIR}" STREQUAL "")
     set(ESMI_DIR "/opt/e-sms/e_smi")
 endif()

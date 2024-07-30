@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: MIT
+# Copyright (c) 2024, Advanced Micro Devices, Inc.
 
 # c compiler
 set(CMAKE_C_COMPILER "gcc" CACHE PATH "")

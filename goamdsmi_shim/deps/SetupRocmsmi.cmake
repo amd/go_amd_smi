@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: MIT
+# Copyright (c) 2024, Advanced Micro Devices, Inc.
+
 if("${ROCM_SMI_DIR}" STREQUAL "")
     set(ROCM_SMI_DIR "/opt/rocm")
 endif()

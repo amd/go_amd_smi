@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: MIT
+# Copyright (c) 2024, Advanced Micro Devices, Inc.
 
 set(goamdsmi_headers
   ${CMAKE_CURRENT_SOURCE_DIR}/goamdsmi.h

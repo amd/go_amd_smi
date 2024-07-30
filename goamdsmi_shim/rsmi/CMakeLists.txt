@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: MIT
+# Copyright (c) 2024, Advanced Micro Devices, Inc.
 
 set(go_amd_smi_rocm_smi_headers
   ${CMAKE_CURRENT_SOURCE_DIR}/rocm_smi_go_shim.h
